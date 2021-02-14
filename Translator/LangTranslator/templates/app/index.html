@@ -1,0 +1,108 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Translator</title>
+	<style type="text/css">
+		textarea{
+			border-radius: 10px;
+			font-family: sans-serif;
+		}
+		td {
+			text-align: center;
+		}
+		select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: "▼";
+  font-size: 1rem;
+  top: 6px;
+  right: 10px;
+  position: absolute;
+}
+
+button, label, input, select, progress, meter {
+  display: block;
+  font-family: inherit;
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+}
+	</style>
+</head>
+<body style="background-color: #057ce2">
+	<br>
+	<center>
+		<br><br><br>
+	    <form action="{% url 'index' %}" method="POST">
+	    	{% csrf_token %}
+	    	<table>
+			<tr>
+				<td>
+					<label><h1 style="font-family: monospace;margin: 0;color: white">Enter your text here..</h1></label><br>
+		
+					 <textarea rows="10" cols="50" style="padding: 0"  name="txtEntered"  autofocus>{{txtEntered}} </textarea><br><br>
+					 <input type="submit" value="Translate" style="border-radius: 10px;width: 100%;height: 30px">
+               </td>
+				<td>
+					<img src="{% static 'images/arrow_image.svg' %}" style="color: white;" width="100" height="100">
+				</td>
+				<td>
+				    <div class="select-wrapper">		
+					<select name="langChosen" style="width: 100%;height: 30px">
+						<option value="en" id="en">English</option>
+						<option value="te" id="te">Telugu</option>
+						<option value="hi" id="hi">Hindi</option>
+					</select>
+				    </div>
+				    <br><br>
+	          <textarea rows="10" cols="50" style="padding: 0" name="txtOutput" readonly >{{txtOutput}}
+	          </textarea>
+				</td>
+			</tr>
+		</table>
+	    </form>
+		<br>
+		<form action="{% url 'filetranslate' %}" method="POST">
+			{% csrf_token %}
+			<table>
+				<tr>
+					<td><input type="submit" value="Upload file to translate" style="border-radius: 10px;width: 100%;height: 30px"></td>
+				    <td>Select</td>
+					<td>
+					<select name="langChoosen" style="width: 100%;height: 30px">
+						<option value="en" class="en">English</option>
+						<option value="te" class="te">Telugu</option>
+						<option value="hi" class="hi">Hindi</option>
+					</select>
+				</td>
+				</tr>
+			</table>
+		</form>
+		<br>
+		<div style="background-color:white;width:95%;border-radius:20px;padding:20px;">
+           {{textOutput}}
+		</div>
+	</center>
+
+    <script type="text/javascript">
+    	var langId="{{langChosen}}";
+    	//alert(langId)
+    	document.getElementById(langId).selected=true;
+    	var imageLangId="{{langChoosen}}";
+    	//alert(imageLangId)
+    	document.getElementByClassName(imageLangId).selected=true;
+    </script> 
+</body>
+</html>
